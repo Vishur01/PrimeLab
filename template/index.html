@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Selection</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">Select Test and Parameters</h2>
+    
+    <form method="POST" action="/">
+        <!-- Test Type Selection (Cracking or Permanent Strain) -->
+        <div class="form-group">
+            <label for="test_type">Choose a Test Type:</label>
+            <select class="form-control" id="test_type" name="test_type" onchange="showModels()">
+                <option disabled selected>Select Test Type</option>
+                <option value="cracking">Cracking</option>
+                <option value="permanent_strain">Permanent Strain</option>
+            </select>
+        </div>
+
+        <!-- Model Selection (Hidden until a test type is selected) -->
+        <div class="form-group" id="model_select_group" style="display: none;">
+            <label for="model_select">Choose Binder and Aggregate Source Parameters:</label>
+            <select class="form-control" id="model_select" name="model_select">
+                <option disabled selected>Parameters</option>
+            </select>
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary" id="submit_button" disabled>Submit</button>
+        </div>
+    </form>
+</div>
+
+<!-- Add Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function showModels() {
+        const testType = document.getElementById('test_type').value;
+        const modelSelectGroup = document.getElementById('model_select_group');
+        const modelSelect = document.getElementById('model_select');
+        const submitButton = document.getElementById('submit_button');
+
+        // Clear previous options
+        modelSelect.innerHTML = '<option disabled selected>Select your model</option>';
+
+        if (testType === 'cracking') {
+            modelSelectGroup.style.display = 'block';
+            modelSelect.innerHTML += `
+                <option value="C1">ZSV and Abrasion Value</option>
+                <option value="C2">ZSV and Impact Value</option>
+                <option value="C3">ZSV and S.G</option>
+                <option value="C4">KV and Abrasion Value</option>
+                <option value="C5">KV and Imapct Value</option>
+                <option value="C6">KV and S.G </option>
+            `;
+        } else if (testType === 'permanent_strain') {
+            modelSelectGroup.style.display = 'block';
+            modelSelect.innerHTML += `
+                <option value="P1">ZSV and Abrasion Value</option>
+                <option value="P2">ZSV and Impact Value</option>
+                <option value="P3">ZSV and S.G</option>
+                <option value="P4">KV and Abrasion Value</option>
+                <option value="P5">KV and Imapct Value</option>
+                <option value="P6">KV and S.G </option>
+            `;
+        }
+
+        // Enable the submit button when a model is selected
+        modelSelect.addEventListener('change', function() {
+            submitButton.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
